@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.restaurant.dto.ReturnImage;
-import com.example.restaurant.exception.FileNotFoundException;
 import com.example.restaurant.exception.FileStorageException;
+import com.example.restaurant.exception.NotFoundException;
 
 @Service
 public class ImageService {
@@ -50,7 +50,7 @@ public class ImageService {
     public File getFile(String fileName) {
         final var file = new File(FOLDER + fileName);
         if (!file.exists()) {
-            throw new FileNotFoundException("File Not Found");
+            throw new NotFoundException("File Not Found");
         }
         return file;
     }
