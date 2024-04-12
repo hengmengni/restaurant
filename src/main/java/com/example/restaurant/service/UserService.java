@@ -2,35 +2,52 @@ package com.example.restaurant.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.restaurant.dto.UserCreationRequest;
 import com.example.restaurant.exception.UserNotFoundException;
-import com.example.restaurant.model.User;
+import com.example.restaurant.model.Users;
 import com.example.restaurant.repository.UserRepository;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final ImageService imageService;
 
-    public List<User> getListUser() {
+    private final PasswordEncoder passwordEncoder;
+
+    public List<Users> getListUser() {
         return userRepository.findAll();
     }
 
-    public User addUser(UserCreationRequest user) {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Optional<Users> userDetail = userRepository.findByName(username);
+
+        return userDetail.map(UserInfoDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+    }
+
+    public Users addUser(UserCreationRequest user) {
         final var fileName = imageService.save(user.profileImage());
         final var imageUrl = imageService.getImageUrl(fileName);
-        final var savedUser = User
+        final var savedUser = Users
                 .builder()
                 .name(user.name())
                 .gender(user.gender())
                 .username(user.username())
-                .password(user.password())
+                .password(passwordEncoder.encode(user.password()))
                 .email(user.email())
                 .profileImage(imageUrl)
                 .build();
@@ -54,4 +71,5 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
 }
