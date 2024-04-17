@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.restaurant.dto.ReturnImage;
 import com.example.restaurant.exception.FileStorageException;
+import com.example.restaurant.exception.MessageException;
 import com.example.restaurant.exception.NotFoundException;
 
 @Service
@@ -22,6 +23,9 @@ public class ImageService {
     static final String FOLDER = "/pos/restaurant/";
 
     public String save(MultipartFile file) throws FileStorageException {
+        if (file == null) {
+            throw new MessageException("Image is null");
+        }
         final var directory = new File(FOLDER);
         if (!directory.exists()) {
             directory.mkdirs();

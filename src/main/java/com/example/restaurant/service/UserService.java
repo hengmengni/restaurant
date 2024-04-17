@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.restaurant.dto.UserCreationRequest;
+import com.example.restaurant.exception.MessageException;
 import com.example.restaurant.exception.NotFoundException;
 import com.example.restaurant.model.ResponseMessage;
 import com.example.restaurant.model.RoleUser;
@@ -48,6 +49,19 @@ public class UserService implements UserDetailsService {
         final var roleUser = roleUserRepository.findById(user.roleId()).orElse(null);
         if (roleUser == null) {
             throw new NotFoundException("Role ID : " + user.roleId() + " Not found");
+        }
+        if (user.name() == null) {
+            throw new MessageException("Name is null");
+        } else if (user.username() == null) {
+            throw new MessageException("Username is null");
+        } else if (user.password() == null) {
+            throw new MessageException("Password is null");
+        } else if (user.email() == null) {
+            throw new MessageException("Email is null");
+        } else if (user.gender() == null) {
+            throw new MessageException("Gender is null");
+        } else if (user.roleId() == 0) {
+            throw new MessageException("Role ID is null");
         }
         final var savedUser = Users
                 .builder()

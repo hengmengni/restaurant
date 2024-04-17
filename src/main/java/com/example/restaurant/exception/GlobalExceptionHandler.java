@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
         final var response = new ResponseMessage(ex.getMessage());
         return ResponseEntity.badRequest().body(response);
     }
+
+    @ExceptionHandler({ MessageException.class })
+    public ResponseEntity<ResponseMessage> handleMessageException(MessageException ex) {
+        final var response = new ResponseMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body(response);
+    }
 }
