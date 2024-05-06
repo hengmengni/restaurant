@@ -1,12 +1,17 @@
 package com.example.restaurant.model;
 
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,18 +19,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Users {
+@Table(name = "order_restaurant")
+public class OrderRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    private String name;
-    private String gender;
-    private String username;
-    private String password;
-    private String email;
-    private String profileImage;
     @ManyToOne
-    private RoleUser role;
+    @JoinColumn(name = "table_id")
+    private TableInRestaurant table;
+
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private List<OrderItem> order;
 }

@@ -1,5 +1,7 @@
 package com.example.restaurant.model;
 
+import java.time.Instant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role_user", schema = "public")
-public class RoleUser {
+@Table(name = "table_in_restaurant", schema = "public")
+public class TableInRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,4 +25,16 @@ public class RoleUser {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "create_date")
+    private Instant createdDate;
+
+    @Column(name = "create_by")
+    private String createBy;
 }

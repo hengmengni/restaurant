@@ -1,1 +1,0 @@
-INSERT INTO role_user (name) VALUES ('ROLE_USER'),('ROLE_ADMIN');

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.restaurant.dto.UserCreationRequest;
 import com.example.restaurant.model.AuthRequest;
 import com.example.restaurant.model.ResponseMessage;
-import com.example.restaurant.model.Users;
+import com.example.restaurant.model.User;
 import com.example.restaurant.service.JwtService;
 import com.example.restaurant.service.UserService;
 
@@ -35,12 +35,12 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @GetMapping("/users")
-    public ResponseEntity<List<Users>> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.getListUser(), HttpStatus.OK);
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Users> createUser(@ModelAttribute UserCreationRequest user) {
+    public ResponseEntity<User> createUser(@ModelAttribute UserCreationRequest user) {
         final var createUser = userService.addUser(user);
         return new ResponseEntity<>(createUser, HttpStatus.OK);
     }

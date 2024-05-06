@@ -3,9 +3,7 @@ package com.example.restaurant.service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.example.restaurant.model.Users;
-
+import com.example.restaurant.model.User;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +15,7 @@ public class UserInfoDetails implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
 
-    public UserInfoDetails(Users user) {
+    public UserInfoDetails(User user) {
         name = user.getName();
         password = user.getPassword();
         authorities = Arrays.stream(user.getRole().getName().split(","))

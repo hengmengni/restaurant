@@ -13,13 +13,10 @@ import org.springframework.stereotype.Service;
 import com.example.restaurant.dto.UserCreationRequest;
 import com.example.restaurant.exception.MessageException;
 import com.example.restaurant.exception.NotFoundException;
-import com.example.restaurant.model.ResponseMessage;
-import com.example.restaurant.model.RoleUser;
-import com.example.restaurant.model.Users;
+import com.example.restaurant.model.User;
 import com.example.restaurant.repository.RoleUserRepository;
 import com.example.restaurant.repository.UserRepository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,20 +27,20 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final RoleUserRepository roleUserRepository;
 
-    public List<Users> getListUser() {
+    public List<User> getListUser() {
         return userRepository.findAll();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Users> userDetail = userRepository.findByName(username);
+        Optional<User> userDetail = userRepository.findByName(username);
 
         return userDetail.map(UserInfoDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
-    public Users addUser(UserCreationRequest user) {
+    public User addUser(UserCreationRequest user) {
         final var fileName = imageService.save(user.profileImage());
         final var imageUrl = imageService.getImageUrl(fileName);
         final var roleUser = roleUserRepository.findById(user.roleId()).orElse(null);
@@ -63,7 +60,7 @@ public class UserService implements UserDetailsService {
         } else if (user.roleId() == 0) {
             throw new MessageException("Role ID is null");
         }
-        final var savedUser = Users
+        final var savedUser = User
                 .builder()
                 .name(user.name())
                 .gender(user.gender())

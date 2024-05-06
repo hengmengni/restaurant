@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.restaurant.model.Users;
+import com.example.restaurant.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Integer> {
-    Optional<Users> findByName(String username);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByName(String username);
 }

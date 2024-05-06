@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role_user", schema = "public")
-public class RoleUser {
+@Table(name = "menu", schema = "public")
+public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,4 +25,17 @@ public class RoleUser {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "price")
+    private float price;
+
+    @Column(name = "duration")
+    private int duration;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category categoryId;
+
+    @Column(name = "image")
+    private String image;
 }
